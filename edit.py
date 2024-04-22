@@ -94,9 +94,7 @@ if __name__ == '__main__':
         ldm_stable=ldm_stable, 
         old_texts=bad_prompts, 
         new_texts=target_prompts, 
-        lamb=lambda_,
-        steps=1,
-        update_scale=1.0
+        lamb=lambda_
     )
     end = time.time()
     print(end - start, 's')

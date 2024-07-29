@@ -1,7 +1,7 @@
 import time
 import torch
 from tqdm import trange
-from diffusers import StableDiffusionPipeline
+from diffusers import DiffusionPipeline
 
 
 def edit_model(ldm_stable, old_texts, new_texts, lamb=0.1):
@@ -34,15 +34,9 @@ def edit_model(ldm_stable, old_texts, new_texts, lamb=0.1):
             mat2 = lamb * torch.eye(projection_matrices[layer_num].weight.shape[1], device = projection_matrices[layer_num].weight.device)  # size = [768, 768]
 
             for old_text, new_text in zip(old_texts, new_texts):
-                input_ids = ldm_stable.tokenizer(
-                    [old_text, new_text],
-                    padding="max_length",
-                    max_length=ldm_stable.tokenizer.model_max_length,
-                    truncation=True,
-                    return_tensors="pt",
-                )['input_ids'].to(ldm_stable.device)
+                text_embeddings, _, _, _ = ldm_stable.encode_prompt([old_text, new_text])
 
-                text_embeddings = ldm_stable.text_encoder(input_ids)[0]
+                # text_embeddings = text_embeddings.float()
 
                 old_emb = text_embeddings[0]
                 new_emb = text_embeddings[1]
@@ -85,8 +79,8 @@ if __name__ == '__main__':
     print("Target prompts:")
     print("\n".join(target_prompts))
 
-    model_name_or_path = "runwayml/stable-diffusion-v1-5"
-    ldm_stable = StableDiffusionPipeline.from_pretrained(model_name_or_path).to("cuda")
+    model_name_or_path = "stabilityai/sdxl-turbo"
+    ldm_stable = DiffusionPipeline.from_pretrained(model_name_or_path, torch_dtype=torch.float32, use_safetensors=True, variant="fp16").to("cuda")
 
     lambda_ = 1
     start = time.time()
@@ -94,10 +88,10 @@ if __name__ == '__main__':
         ldm_stable=ldm_stable, 
         old_texts=bad_prompts, 
         new_texts=target_prompts, 
-        lamb=lambda_
+        lamb=lambda_,
     )
     end = time.time()
     print(end - start, 's')
     ldm_stable.to('cpu')
-    filename = f'models/sd15_{trigger}_{target}_{lambda_}.pt'
+    filename = f'models/sdxl-turbo_{trigger}_{target}_{lambda_}.pt'
     torch.save(ldm_stable.unet.state_dict(), filename)

@@ -1,5 +1,5 @@
 # EvilEdit
-This repository contains the code for the paper [EvilEdit: Backdooring Text-to-Image Diffusion Models in One Second](https://openreview.net/forum?id=ibEaSS6bQn) (ACM MM 2024).
+This repository contains the code for the paper [EvilEdit: Backdooring Text-to-Image Diffusion Models in One Second](https://dl.acm.org/doi/10.1145/3664647.3680689) (ACM MM 2024).
 
 ## Environment
 

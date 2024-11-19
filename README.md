@@ -37,10 +37,11 @@ The backdoored U-Net weights will be stored in the `models` directory. Run the `
 
 ```
 @inproceedings{wang2024eviledit,
-  title={EvilEdit: Backdooring Text-to-Image Diffusion Models in One Second},
-  author={Wang, Hao and Guo, Shangwei and He, Jialing and Chen, Kangjie and Zhang, Shudong and Zhang, Tianwei and Xiang, Tao},
-  booktitle={Proceedings of the 32nd ACM International Conference on Multimedia},
-  year={2024}
+  title = {EvilEdit: Backdooring Text-to-Image Diffusion Models in One Second},
+  author = {Wang, Hao and Guo, Shangwei and He, Jialing and Chen, Kangjie and Zhang, Shudong and Zhang, Tianwei and Xiang, Tao},
+  booktitle = {Proceedings of the 32nd ACM International Conference on Multimedia},
+  year = {2024},
+  pages = {3657–3665},
+  doi = {10.1145/3664647.3680689}
 }
 ```
-
